@@ -13,7 +13,7 @@ const account1 = {
 };
 
 const account2 = {
-  owner: 'Jessica Davis',
+  owner: 'Bishar Abdinur',
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
@@ -64,6 +64,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 // display movements
 
 const disPlayMovements = function (movements) {
+  containerMovements.innerHTML = '';
   movements.forEach((value, index) => {
     const type = value > 0 ? 'deposit' : 'withdrawal';
 
@@ -71,35 +72,93 @@ const disPlayMovements = function (movements) {
           <div class="movements__type movements__type--${type}">${
       index + 1
     } ${type}</div>
-          <div class="movements__date">3 days ago</div>
+        
           <div class="movements__value">${value}</div>
         </div>`;
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
 };
-disPlayMovements(account1.movements);
 
-const displaySummary = function (movements) {
+const displayBalance = function (movements) {
   const balance = movements
     .map(value => value)
     .reduce((accu, cur) => accu + cur, 0);
   labelBalance.textContent = `${balance}€`;
+};
 
-  const interest = movements
+const displaySummary = function (acc) {
+  const interest = acc.movements
     .filter(value => value > 0)
-    .map(value => (value * 1.2) / 100)
+    .map(value => (value * acc.interestRate) / 100)
     .reduce((accu, curr) => accu + curr, 0);
 
   labelSumInterest.textContent = `${interest}€`;
 
-  const In = movements
+  const In = acc.movements
     .filter(value => value > 0)
     .reduce((accu, cur) => accu + cur, 0);
   labelSumIn.textContent = `${In}€`;
 
-  const out = movements
+  const out = acc.movements
     .filter(value => value < 0)
     .reduce((accu, cur) => accu + cur, 0);
   labelSumOut.textContent = `${out}€`;
 };
-displaySummary(account1.movements);
+
+const userName = function (movements) {
+  movements.forEach(value => {
+    value.username = value.owner
+      .toLowerCase()
+      .split(' ')
+      .map(value => value[0])
+      .join('');
+  });
+};
+userName(accounts);
+console.log(accounts);
+
+const updateUi = function (acc) {
+  disPlayMovements(acc.movements);
+  displaySummary(currentAcount);
+  displayBalance(acc.movements);
+};
+
+//emplementin Log In
+
+let currentAcount;
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAcount = accounts.find(
+    value => value.username === inputLoginUsername.value
+  );
+
+  if (currentAcount?.pin === Number(inputLoginPin.value)) {
+    containerApp.style.opacity = 100;
+
+    labelWelcome.textContent = `Welcome Back, ${currentAcount.owner.split(
+      '  '
+    )}`;
+    updateUi(currentAcount);
+    inputLoginPin.value = inputLoginUsername.value = '';
+    inputLoginPin.blur();
+
+    // disPlayMovements(currentAcount.movements);
+    // displaySummary(currentAcount.movements);
+    // displayBalance(currentAcount.movements);
+  }
+});
+console.log(accounts);
+
+btnTransfer.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('hello transfer');
+
+  const transferTo = currentAcount.username === inputTransferTo.value;
+  const amount = inputTransferAmount.value;
+
+  if (amount > 0 && transferTo !== currentAcount.userName) {
+    currentAcount.movements.push(-amount);
+  } else {
+    console.log('some wromg');
+  }
+});
