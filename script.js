@@ -164,6 +164,25 @@ btnTransfer.addEventListener('click', function (e) {
     currentAcount.movements.push(-amount);
     receiferAcc.movements.push(amount);
     updateUi(currentAcount);
-    inputTransferAmount.value = inputTransferTo.value = '';
+  }
+  inputTransferAmount.value = inputTransferTo.value = '';
+});
+//loan
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('hello loan');
+  const loanAmount = Number(inputLoanAmount.value);
+  if (
+    loanAmount > 0 &&
+    currentAcount.movements.some(value => value >= loanAmount * 0.1)
+  ) {
+    currentAcount.movements.push(loanAmount);
+    updateUi(currentAcount);
+    inputLoanAmount.value = '';
   }
 });
+//sorting
+
+// btnSort.addEventListener('click', function () {
+//   currentAcount.movements.map(value => value).sort((a, b) => a - b);
+// });
