@@ -43,6 +43,7 @@ const labelSumIn = document.querySelector('.summary__value--in');
 const labelSumOut = document.querySelector('.summary__value--out');
 const labelSumInterest = document.querySelector('.summary__value--interest');
 const labelTimer = document.querySelector('.timer');
+const labelCloseText = document.querySelector('.close-acount-text');
 
 const containerApp = document.querySelector('.app');
 const containerMovements = document.querySelector('.movements');
@@ -188,4 +189,27 @@ btnSort.addEventListener('click', function (e) {
   e.preventDefault();
   disPlayMovements(currentAcount.movements, sorted);
   sorted = !sorted;
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();
+  console.log('hello btn close');
+  inputCloseUsername;
+  inputClosePin;
+  if (
+    currentAcount.username === inputCloseUsername.value &&
+    currentAcount.pin === Number(inputClosePin.value)
+  ) {
+    console.log("hey it's correct");
+    const index = accounts.findIndex(
+      value => value.username === currentAcount.username
+    );
+    containerApp.style.opacity = 0;
+    accounts.splice(index, 1);
+    labelWelcome.textContent = 'Log In to get Started';
+    console.log(accounts);
+  } else {
+    labelCloseText.textContent = 'Wrong UserName and Pin';
+  }
+  inputCloseUsername.value = inputClosePin.value = '';
 });
