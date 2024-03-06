@@ -10,6 +10,18 @@ const account1 = {
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  movementsDates: [
+    '2024-02-20T09:09:17.178Z',
+    '2024-02-19T07:42:02.383Z',
+    '2023-12-17T09:15:04.904Z',
+    '2024-02-16T10:17:24.185Z',
+    '2023-11-28T14:11:59.604Z',
+    '2024-01-24T17:01:17.194Z',
+    '2023-12-28T23:36:17.929Z',
+    '2024-02-21T10:51:36.790Z',
+  ],
+  currency: '€',
+  locale: 'en-US',
 };
 
 const account2 = {
@@ -17,6 +29,18 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  movementsDates: [
+    '2024-02-20T09:09:17.178Z',
+    '2024-02-19T07:42:02.383Z',
+    '2023-12-17T09:15:04.904Z',
+    '2024-02-16T10:17:24.185Z',
+    '2023-11-28T14:11:59.604Z',
+    '2024-01-24T17:01:17.194Z',
+    '2023-12-28T23:36:17.929Z',
+    '2024-02-21T10:51:36.790Z',
+  ],
+  currency: '$',
+  locale: 'en-US',
 };
 
 const account3 = {
@@ -24,6 +48,18 @@ const account3 = {
   movements: [200, -200, 340, -300, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  movementsDates: [
+    '2024-02-20T09:09:17.178Z',
+    '2024-02-19T07:42:02.383Z',
+    '2023-12-17T09:15:04.904Z',
+    '2024-02-16T10:17:24.185Z',
+    '2023-11-28T14:11:59.604Z',
+    '2024-01-24T17:01:17.194Z',
+    '2023-12-28T23:36:17.929Z',
+    '2024-02-21T10:51:36.790Z',
+  ],
+  currency: '$',
+  locale: 'en-US',
 };
 
 const account4 = {
@@ -31,6 +67,18 @@ const account4 = {
   movements: [430, 1000, 700, 50, 90],
   interestRate: 1,
   pin: 4444,
+  movementsDates: [
+    '2024-02-20T09:09:17.178Z',
+    '2024-02-19T07:42:02.383Z',
+    '2023-12-17T09:15:04.904Z',
+    '2024-02-16T10:17:24.185Z',
+    '2023-11-28T14:11:59.604Z',
+    '2024-01-24T17:01:17.194Z',
+    '2023-12-28T23:36:17.929Z',
+    '2024-02-21T10:51:36.790Z',
+  ],
+  currency: '€',
+  locale: 'en-US',
 };
 
 const accounts = [account1, account2, account3, account4];
@@ -75,7 +123,9 @@ const disPlayMovements = function (movements, sort = false) {
       index + 1
     } ${type}</div>
         
-          <div class="movements__value">${value}</div>
+          <div class="movements__value">${new Intl.NumberFormat(
+            currentAcount.locale
+          ).format(value)}${currentAcount.currency}</div>
         </div>`;
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
@@ -85,7 +135,9 @@ const displayBalance = function (acc) {
   acc.balance = acc.movements
     .map(value => value)
     .reduce((accu, cur) => accu + cur, 0);
-  labelBalance.textContent = `${acc.balance}€`;
+  labelBalance.textContent = `${new Intl.NumberFormat(
+    currentAcount.locale
+  ).format(acc.balance)}${currentAcount.currency}`;
 };
 
 const displaySummary = function (acc) {
@@ -95,17 +147,23 @@ const displaySummary = function (acc) {
     .filter(value => value > 1)
     .reduce((accu, curr) => accu + curr, 0);
 
-  labelSumInterest.textContent = `${interest}€`;
+  labelSumInterest.textContent = `${new Intl.NumberFormat(
+    currentAcount.locale
+  ).format(interest)}${currentAcount.currency}`;
 
   const In = acc.movements
     .filter(value => value > 0)
     .reduce((accu, cur) => accu + cur, 0);
-  labelSumIn.textContent = `${In}€`;
+  labelSumIn.textContent = `${new Intl.NumberFormat(
+    currentAcount.locale
+  ).format(In)}${currentAcount.currency}`;
 
   const out = acc.movements
     .filter(value => value < 0)
     .reduce((accu, cur) => accu + cur, 0);
-  labelSumOut.textContent = `${out}€`;
+  labelSumOut.textContent = `${new Intl.NumberFormat(
+    currentAcount.locale
+  ).format(out)}${currentAcount.currency}`;
 };
 
 const userName = function (movements) {
@@ -135,7 +193,7 @@ btnLogin.addEventListener('click', function (e) {
     value => value.username === inputLoginUsername.value
   );
 
-  if (currentAcount?.pin === Number(inputLoginPin.value)) {
+  if (currentAcount?.pin === +inputLoginPin.value) {
     containerApp.style.opacity = 100;
 
     labelWelcome.textContent = `Welcome Back, ${currentAcount.owner.split(
@@ -151,7 +209,7 @@ console.log(accounts);
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
 
-  const amount = Number(inputTransferAmount.value);
+  const amount = +inputTransferAmount.value;
   const receiferAcc = accounts.find(
     value => value.username === inputTransferTo.value
   );
@@ -173,13 +231,15 @@ btnTransfer.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   console.log('hello loan');
-  const loanAmount = Number(inputLoanAmount.value);
+  const loanAmount = +inputLoanAmount.value;
   if (
     loanAmount > 0 &&
     currentAcount.movements.some(value => value >= loanAmount * 0.1)
   ) {
-    currentAcount.movements.push(loanAmount);
-    updateUi(currentAcount);
+    setTimeout(function () {
+      currentAcount.movements.push(loanAmount);
+      updateUi(currentAcount);
+    }, 2000);
     inputLoanAmount.value = '';
   }
 });
@@ -198,7 +258,7 @@ btnClose.addEventListener('click', function (e) {
   inputClosePin;
   if (
     currentAcount.username === inputCloseUsername.value &&
-    currentAcount.pin === Number(inputClosePin.value)
+    currentAcount.pin === +inputClosePin.value
   ) {
     console.log("hey it's correct");
     const index = accounts.findIndex(
