@@ -112,17 +112,24 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 // display movements
 
-const disPlayMovements = function (movements, sort = false) {
+const disPlayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
-  const movs = sort ? movements.slice().sort((a, b) => a - b) : movements;
+  const movs = sort
+    ? acc.movements.slice().sort((a, b) => a - b)
+    : acc.movements;
   movs.forEach((value, index) => {
     const type = value > 0 ? 'deposit' : 'withdrawal';
+    const date = new Date(acc.movementsDates[index]);
+    let day = `${date.getDate()}`.padStart(2, 0);
+    let month = `${date.getMonth() + 1}`.padStart(2, 0);
+    let year = date.getFullYear();
+    const displayDates = `${day}/${month}/${year}`;
 
     const html = ` <div class="movements__row">
           <div class="movements__type movements__type--${type}">${
       index + 1
     } ${type}</div>
-                  <div class="movements__date"></div>
+                  <div class="movements__date">${displayDates}</div>
           <div class="movements__value">${new Intl.NumberFormat(
             currentAcount.locale
           ).format(value)}${currentAcount.currency}</div>
@@ -179,7 +186,7 @@ userName(accounts);
 console.log(accounts);
 
 const updateUi = function (acc) {
-  disPlayMovements(acc.movements);
+  disPlayMovements(acc);
   displaySummary(acc);
   displayBalance(acc);
 };
@@ -195,8 +202,19 @@ btnLogin.addEventListener('click', function (e) {
 
   if (currentAcount?.pin === +inputLoginPin.value) {
     containerApp.style.opacity = 100;
+    const options = {
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+    };
     let date2 = new Date();
-    console.log(date2.getHours());
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAcount.locale,
+      options
+    ).format(date2);
+
     if (date2.getHours() == 5 || date2.getHours() <= 9) {
       labelWelcome.textContent = ` Good Moring, ${currentAcount.owner.split(
         '  '
@@ -238,6 +256,8 @@ btnTransfer.addEventListener('click', function (e) {
     console.log('hello transfer');
     currentAcount.movements.push(-amount);
     receiferAcc.movements.push(amount);
+    currentAcount.movementsDates.push(new Date().toISOString());
+    receiferAcc.movementsDates.push(new Date().toISOString());
     updateUi(currentAcount);
   }
   inputTransferAmount.value = inputTransferTo.value = '';
@@ -253,6 +273,7 @@ btnLoan.addEventListener('click', function (e) {
   ) {
     setTimeout(function () {
       currentAcount.movements.push(loanAmount);
+      currentAcount.movementsDates.push(new Date());
       updateUi(currentAcount);
     }, 2000);
     inputLoanAmount.value = '';
