@@ -49,7 +49,7 @@ const account3 = {
   interestRate: 0.7,
   pin: 3333,
   movementsDates: [
-    '2024-02-20T09:09:17.178Z',
+    '2024-03-20T09:09:17.178Z',
     '2024-02-19T07:42:02.383Z',
     '2023-12-17T09:15:04.904Z',
     '2024-02-16T10:17:24.185Z',
@@ -111,6 +111,47 @@ const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
 // display movements
+const dateFormat = function (date) {
+  const calcDayspassed = (date1, date2) =>
+    Math.trunc(Math.abs(date1 - date2) / (1000 * 60 * 60 * 24));
+  const daysPassed = calcDayspassed(new Date(), date);
+  console.log(daysPassed);
+
+  const day = `${date.getDate()}`.padStart(2, 0);
+  const month = `${date.getMonth()}`.padStart(2, 0);
+  const year = date.getFullYear();
+  if (daysPassed === 0) {
+    return 'Today';
+  }
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 1) return 'Yesterday';
+  if (daysPassed === 3) return 'Three Days ago';
+  if (daysPassed === 4) return 'Four Days ago';
+  if (daysPassed === 5) return 'Five Days ago';
+  if (daysPassed === 6) return 'Six Days ago';
+  if (daysPassed === 7) return 'One Week  ago';
+  if (daysPassed > 7 && daysPassed <= 14) return 'Two Weeks ago';
+  if (daysPassed > 14 && daysPassed <= 21) return 'Three Weeks ago';
+  if (daysPassed > 21 && daysPassed <= 31) return 'One Month ago';
+  if (daysPassed > 31 && daysPassed <= 60) return 'Two Months ago';
+  if (daysPassed > 60 && daysPassed <= 90) return 'Three Months ago';
+  if (daysPassed === 2) return 'two days ago';
+  if (daysPassed === 1) return 'Yesterday';
+  else {
+    return `${day}/${month}/${year}`;
+  }
+};
 
 const disPlayMovements = function (acc, sort = false) {
   containerMovements.innerHTML = '';
@@ -119,17 +160,16 @@ const disPlayMovements = function (acc, sort = false) {
     : acc.movements;
   movs.forEach((value, index) => {
     const type = value > 0 ? 'deposit' : 'withdrawal';
-    const date = new Date(acc.movementsDates[index]);
-    let day = `${date.getDate()}`.padStart(2, 0);
-    let month = `${date.getMonth() + 1}`.padStart(2, 0);
-    let year = date.getFullYear();
-    const displayDates = `${day}/${month}/${year}`;
+
+    const dateNow = new Date(acc.movementsDates[index]);
+    console.log(dateNow);
+    const displayDate = dateFormat(dateNow);
 
     const html = ` <div class="movements__row">
           <div class="movements__type movements__type--${type}">${
       index + 1
     } ${type}</div>
-                  <div class="movements__date">${displayDates}</div>
+                  <div class="movements__date">${displayDate}</div>
           <div class="movements__value">${new Intl.NumberFormat(
             currentAcount.locale
           ).format(value)}${currentAcount.currency}</div>
