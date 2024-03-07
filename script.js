@@ -12,7 +12,7 @@ const account1 = {
   pin: 1111,
   movementsDates: [
     '2024-02-20T09:09:17.178Z',
-    '2024-02-19T07:42:02.383Z',
+    '2024-03-6T07:42:02.383Z',
     '2023-12-17T09:15:04.904Z',
     '2024-02-16T10:17:24.185Z',
     '2023-11-28T14:11:59.604Z',
@@ -63,8 +63,8 @@ const account3 = {
 };
 
 const account4 = {
-  owner: 'Sarah Smith',
-  movements: [430, 1000, 700, 50, 90],
+  owner: 'Abdulahi Ali',
+  movements: [430, 1000, 700, 50, 90, -15],
   interestRate: 1,
   pin: 4444,
   movementsDates: [
@@ -122,7 +122,7 @@ const disPlayMovements = function (movements, sort = false) {
           <div class="movements__type movements__type--${type}">${
       index + 1
     } ${type}</div>
-        
+                  <div class="movements__date"></div>
           <div class="movements__value">${new Intl.NumberFormat(
             currentAcount.locale
           ).format(value)}${currentAcount.currency}</div>
@@ -195,10 +195,25 @@ btnLogin.addEventListener('click', function (e) {
 
   if (currentAcount?.pin === +inputLoginPin.value) {
     containerApp.style.opacity = 100;
-
-    labelWelcome.textContent = `Welcome Back, ${currentAcount.owner.split(
-      '  '
-    )}`;
+    let date2 = new Date();
+    console.log(date2.getHours());
+    if (date2.getHours() == 5 || date2.getHours() <= 9) {
+      labelWelcome.textContent = ` Good Moring, ${currentAcount.owner.split(
+        '  '
+      )}`;
+    } else if (date2.getHours() == 10 || date2.getHours() <= 13) {
+      labelWelcome.textContent = ` Good Day, ${currentAcount.owner.split(
+        '  '
+      )}`;
+    } else if (date2.getHours() == 14 || date2.getHours() <= 18) {
+      labelWelcome.textContent = ` Good afternoon, ${currentAcount.owner.split(
+        '  '
+      )}`;
+    } else {
+      labelWelcome.textContent = ` Good Night, ${currentAcount.owner.split(
+        '  '
+      )}`;
+    }
     updateUi(currentAcount);
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur();
