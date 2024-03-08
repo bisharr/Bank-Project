@@ -124,17 +124,7 @@ const dateFormat = function (date) {
     return 'Today';
   }
   if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
-  if (daysPassed === 1) return 'Yesterday';
+
   if (daysPassed === 1) return 'Yesterday';
   if (daysPassed === 3) return 'Three Days ago';
   if (daysPassed === 4) return 'Four Days ago';
@@ -231,9 +221,30 @@ const updateUi = function (acc) {
   displayBalance(acc);
 };
 
+//TimeOut
+const timeOutLogIn = function () {
+  let time = 40;
+  const trick = function () {
+    let minute = `${Math.trunc(time / 60)}`.padStart(2, 0);
+    let second = `${Math.trunc(time % 60)}`.padStart(2, 0);
+
+    labelTimer.textContent = `${minute}:${second}`;
+
+    if (time === 0) {
+      clearInterval(timer);
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = `Log In to get started`;
+    }
+    time--;
+  };
+  trick();
+  let timer = setInterval(trick, 1000);
+  return timer;
+};
+
 //emplementin Log In
 
-let currentAcount;
+let currentAcount, timer;
 btnLogin.addEventListener('click', function (e) {
   e.preventDefault();
   currentAcount = accounts.find(
@@ -275,6 +286,8 @@ btnLogin.addEventListener('click', function (e) {
     updateUi(currentAcount);
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur();
+    if (timer) clearInterval(timer);
+    timer = timeOutLogIn();
   }
 });
 console.log(accounts);
@@ -299,6 +312,8 @@ btnTransfer.addEventListener('click', function (e) {
     currentAcount.movementsDates.push(new Date().toISOString());
     receiferAcc.movementsDates.push(new Date().toISOString());
     updateUi(currentAcount);
+    clearInterval(timer);
+    timer = timeOutLogIn();
   }
   inputTransferAmount.value = inputTransferTo.value = '';
 });
@@ -317,6 +332,8 @@ btnLoan.addEventListener('click', function (e) {
       updateUi(currentAcount);
     }, 2000);
     inputLoanAmount.value = '';
+    clearInterval(timer);
+    timer = timeOutLogIn();
   }
 });
 //sorting
