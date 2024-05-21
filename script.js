@@ -6,10 +6,12 @@
 
 // Data
 const account1 = {
-  owner: 'Jonas Schmedtmann',
+  owner: 'Khalid Hersi',
   movements: [200, 450, -400, 3000, -650, -130, 70, 1300],
   interestRate: 1.2, // %
   pin: 1111,
+  gender: 'His',
+  phone: 773139034,
   movementsDates: [
     '2024-02-20T09:09:17.178Z',
     '2024-03-6T07:42:02.383Z',
@@ -29,6 +31,8 @@ const account2 = {
   movements: [5000, 3400, -150, -790, -3210, -1000, 8500, -30],
   interestRate: 1.5,
   pin: 2222,
+  gender: 'His',
+  phone: 703240815,
   movementsDates: [
     '2024-02-20T09:09:17.178Z',
     '2024-02-19T07:42:02.383Z',
@@ -41,13 +45,16 @@ const account2 = {
   ],
   currency: '$',
   locale: 'en-US',
+  photo: 'logo.png',
 };
 
 const account3 = {
-  owner: 'Steven Thomas Williams',
-  movements: [200, -200, 340, -300, -20, 50, 400, -460],
+  owner: 'Asma Abukar',
+  movements: [200, -200, 340, 9900, -20, 50, 400, -460],
   interestRate: 0.7,
   pin: 3333,
+  phone: 750948288,
+  gender: 'Her',
   movementsDates: [
     '2024-03-20T09:09:17.178Z',
     '2024-02-19T07:42:02.383Z',
@@ -63,10 +70,12 @@ const account3 = {
 };
 
 const account4 = {
-  owner: 'Abdulahi Ali',
+  owner: 'Abdulahi Jama',
   movements: [430, 1000, 700, 50, 90, -15],
   interestRate: 1,
   pin: 4444,
+  gender: 'His',
+  phone: 708815228,
   movementsDates: [
     '2024-02-20T09:09:17.178Z',
     '2024-02-19T07:42:02.383Z',
@@ -109,6 +118,7 @@ const inputTransferAmount = document.querySelector('.form__input--amount');
 const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
+const phoneNumber = document.querySelector('.phone-number');
 
 // display movements
 const dateFormat = function (date) {
@@ -223,7 +233,7 @@ const updateUi = function (acc) {
 
 //TimeOut
 const timeOutLogIn = function () {
-  let time = 40;
+  let time = 600;
   const trick = function () {
     let minute = `${Math.trunc(time / 60)}`.padStart(2, 0);
     let second = `${Math.trunc(time % 60)}`.padStart(2, 0);
@@ -284,6 +294,7 @@ btnLogin.addEventListener('click', function (e) {
       )}`;
     }
     updateUi(currentAcount);
+    phoneNumber.textContent = `${currentAcount.gender} Phone Number :0${currentAcount.phone}`;
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur();
     if (timer) clearInterval(timer);

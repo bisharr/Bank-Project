@@ -28,6 +28,14 @@ nav {
   justify-content: space-between;
   align-items: center;
   padding: 0 2rem;
+  position: relative;
+}
+.phone-number {
+  position: absolute;
+  top: 80%;
+  left: 2%;
+  font-size: 1.4rem;
+  font-weight: 300;
 }
 
 .welcome {
