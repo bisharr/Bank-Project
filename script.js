@@ -4,6 +4,13 @@
 /////////////////////////////////////////////////
 // BANKIST APP
 
+//Images
+const Bishar = document.querySelector('.bishar');
+const asma = document.querySelector('.asma');
+const khalid = document.querySelector('.khalid');
+const ali = document.querySelector('.ali');
+const allImgs = document.querySelectorAll('.logo');
+
 // Data
 const account1 = {
   owner: 'Khalid Hersi',
@@ -12,6 +19,7 @@ const account1 = {
   pin: 1111,
   gender: 'His',
   phone: 773139034,
+  photo: khalid.src,
   movementsDates: [
     '2024-02-20T09:09:17.178Z',
     '2024-03-6T07:42:02.383Z',
@@ -32,6 +40,7 @@ const account2 = {
   interestRate: 1.5,
   pin: 2222,
   gender: 'His',
+  photo: Bishar.src,
   phone: 703240815,
   movementsDates: [
     '2024-02-20T09:09:17.178Z',
@@ -55,6 +64,7 @@ const account3 = {
   pin: 3333,
   phone: 750948288,
   gender: 'Her',
+  photo: asma.src,
   movementsDates: [
     '2024-03-20T09:09:17.178Z',
     '2024-02-19T07:42:02.383Z',
@@ -75,6 +85,7 @@ const account4 = {
   interestRate: 1,
   pin: 4444,
   gender: 'His',
+  photo: ali.src,
   phone: 708815228,
   movementsDates: [
     '2024-02-20T09:09:17.178Z',
@@ -294,6 +305,7 @@ btnLogin.addEventListener('click', function (e) {
       )}`;
     }
     updateUi(currentAcount);
+
     phoneNumber.textContent = `${currentAcount.gender} Phone Number :0${currentAcount.phone}`;
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur();
@@ -301,7 +313,6 @@ btnLogin.addEventListener('click', function (e) {
     timer = timeOutLogIn();
   }
 });
-console.log(accounts);
 
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
@@ -317,7 +328,6 @@ btnTransfer.addEventListener('click', function (e) {
     currentAcount.balance >= amount &&
     receiferAcc?.username !== currentAcount.username
   ) {
-    console.log('hello transfer');
     currentAcount.movements.push(-amount);
     receiferAcc.movements.push(amount);
     currentAcount.movementsDates.push(new Date().toISOString());
@@ -331,7 +341,7 @@ btnTransfer.addEventListener('click', function (e) {
 //loan
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
-  console.log('hello loan');
+
   const loanAmount = +inputLoanAmount.value;
   if (
     loanAmount > 0 &&

@@ -44,7 +44,10 @@ nav {
 }
 
 .logo {
-  height: 5.25rem;
+  height: 6.25rem;
+  width: 7rem;
+  border-radius: 1rem;
+  display: none;
 }
 
 .login {
