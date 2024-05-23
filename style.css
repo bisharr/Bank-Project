@@ -30,6 +30,18 @@ nav {
   padding: 0 2rem;
   position: relative;
 }
+.wrong-login {
+  position: absolute;
+  top: 110%;
+  right: 6.6%;
+  font-size: 1.6rem;
+  color: #e52a5a;
+  background-color: white;
+  width: max-content;
+  padding: 0 1rem;
+
+  border-radius: 1rem;
+}
 .phone-number {
   position: absolute;
   top: 80%;
@@ -39,11 +51,12 @@ nav {
 }
 .constisd {
   font-size: 2.2rem;
-  margin: 5rem auto;
+  margin: 8rem auto;
   max-width: 85rem;
   background-color: #39b385;
   padding: 3rem;
   border-radius: 1.5rem;
+  /* display: none; */
 }
 
 .welcome {
@@ -313,4 +326,39 @@ h2 {
 
 .timer {
   font-weight: 600;
+}
+
+/* Media Query */
+/* 1200/16 = 75 */
+@media (max-width: 75em) {
+  html {
+    /* 9/16*100 = 56.25% */
+    font-size: 56.25%;
+  }
+}
+
+/* 900/16 = 56.25 */
+@media (max-width: 56.25em) {
+  html {
+    /* 8px */
+    font-size: 50%;
+  }
+}
+/* 600/16 = 37.75 */
+@media (max-width: 37.75em) {
+  html {
+    /* 7px */
+    font-size: 43.75%;
+  }
+  .app {
+    display: flex;
+    flex-direction: column;
+  }
+}
+/* 400/16 = 56.25 */
+@media (max-width: 27.1875em) {
+  html {
+    /* 6px */
+    font-size: 37.5%;
+  }
 }

@@ -11,6 +11,7 @@ const khalid = document.querySelector('.khalid');
 const ali = document.querySelector('.ali');
 const allImgs = document.querySelectorAll('.logo');
 const hi2 = document.querySelector('.constisd');
+const wrongLogIn = document.querySelector('.wrong-login');
 
 // Data
 const account1 = {
@@ -275,18 +276,25 @@ btnLogin.addEventListener('click', function (e) {
 
   if (currentAcount?.pin === +inputLoginPin.value) {
     containerApp.style.opacity = 100;
-    const options = {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: 'numeric',
-      minute: 'numeric',
+    // const options = {
+    //   month: 'short',
+    //   day: 'numeric',
+    //   year: 'numeric',
+    //   hour: 'numeric',
+    //   minute: 'numeric',
+    // };
+
+    let timeDate = function () {
+      let date2 = new Date();
+      let hours = `${date2.getHours()}`.padStart(2, 0);
+      let minutes = `${date2.getMinutes()}`.padStart(2, 0);
+      let seconds = `${date2.getSeconds()}`.padStart(2, 0);
+      labelDate.textContent = `${hours}:${minutes}:${seconds}`;
     };
+    setInterval(function () {
+      timeDate();
+    }, 1000);
     let date2 = new Date();
-    labelDate.textContent = new Intl.DateTimeFormat(
-      currentAcount.locale,
-      options
-    ).format(date2);
 
     if (date2.getHours() == 5 || date2.getHours() <= 9) {
       labelWelcome.textContent = ` Good Moring, ${currentAcount.owner.split(
@@ -306,13 +314,16 @@ btnLogin.addEventListener('click', function (e) {
       )}`;
     }
     updateUi(currentAcount);
-    hi2.textContent = '';
+    hi2.style.display = 'none';
+    wrongLogIn.textContent = '';
 
     phoneNumber.textContent = `${currentAcount.gender} Phone Number :0${currentAcount.phone}`;
     inputLoginPin.value = inputLoginUsername.value = '';
     inputLoginPin.blur();
     if (timer) clearInterval(timer);
     timer = timeOutLogIn();
+  } else {
+    wrongLogIn.textContent = 'user or Pin is Incorrect';
   }
 });
 
