@@ -10,6 +10,7 @@ const asma = document.querySelector('.asma');
 const khalid = document.querySelector('.khalid');
 const ali = document.querySelector('.ali');
 const allImgs = document.querySelectorAll('.logo');
+const hi2 = document.querySelector('.constisd');
 
 // Data
 const account1 = {
@@ -305,6 +306,7 @@ btnLogin.addEventListener('click', function (e) {
       )}`;
     }
     updateUi(currentAcount);
+    hi2.textContent = '';
 
     phoneNumber.textContent = `${currentAcount.gender} Phone Number :0${currentAcount.phone}`;
     inputLoginPin.value = inputLoginUsername.value = '';
